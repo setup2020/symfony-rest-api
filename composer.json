@@ -27,12 +27,15 @@
         "symfony/runtime": "5.3.*",
         "symfony/security-bundle": "5.3.*",
         "symfony/serializer": "5.3.*",
+        "symfony/string": "5.3.*",
         "symfony/twig-bundle": "5.3.*",
         "symfony/validator": "5.3.*",
         "symfony/yaml": "5.3.*",
         "webonyx/graphql-php": "^14.9"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "fzaninotto/faker": "^1.9",
         "symfony/maker-bundle": "^1.33"
     },
     "config": {
