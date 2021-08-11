@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Repository\CategoryRepository;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,16 +33,32 @@ class PostController extends AbstractController
      * @Route("api/posts", name="store_post", methods={"POST"})
      */
 
-    public function store(Request $request,SerializerInterface $serializer, EntityManagerInterface $entityManager,
-    ValidatorInterface $validator){
+    public function store(Request $request,
+                          SerializerInterface $serializer,
+                          EntityManagerInterface $entityManager,
+                          ValidatorInterface $validator,
+                          CategoryRepository $categoryRepository,
+                          $categoryId
+
+    ){
         $postRecu = $request->getContent();
         try {
+            $category =$categoryRepository->find($categoryId);
+            if (!$category){
+                return $this->json(
+                    [
+                        'status'=>404,
+                        'message'=>'cette categorie n\'existe pas '.$categoryId
+
+                    ]);
+            }
             $post= $serializer->deserialize($postRecu,Post::class,'json');
             $post->setCreatedAt(new \DateTime());
              $errors =$validator->validate($post);
              if(count($errors)>0){
                  return $this->json($errors,400);
              }
+            $category->addPost($post);
             $entityManager->persist($post);
             $entityManager->flush();
             return $this->json($post, 201,[],['groups'=> 'post:read']);

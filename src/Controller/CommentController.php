@@ -21,7 +21,11 @@ class CommentController extends AbstractController
      * @Route("api/posts/{id}/comments", name="store_comment",methods={"POST"})
      */
 
-    public function store($id,Request $request,SerializerInterface $serializer, EntityManagerInterface $entityManager,PostRepository $postRepository,
+    public function store($id,
+                          Request $request,
+                          SerializerInterface $serializer,
+                          EntityManagerInterface $entityManager,
+                          PostRepository $postRepository,
                           ValidatorInterface $validator){
         $commentRecu = $request->getContent();
 
