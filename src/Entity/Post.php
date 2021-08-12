@@ -49,6 +49,28 @@ class Post
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
+     * @ORM\JoinColumn(nullable=false)
+     * @Groups("post:write")
+     * @Assert\NotBlank
+     * @Assert\Length(min=3)
+     */
+    private $category;
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
