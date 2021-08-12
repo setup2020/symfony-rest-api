@@ -56,18 +56,5 @@ class CommentController extends AbstractController
         }
     }
 
-    /**
-     * @Route("api/posts/{postId}/comments/{commentsId}", name="delete_comment" , methods={"DELETE"})
-     */
-
-    public function delete($postId,$commentsId,CommentRepository $commentRepository,EntityManagerInterface $entityManager){
-        $comment=$commentRepository->findOneBy(array('post_id'=>$postId,'id'=>$commentsId));
-        if (!$comment){
-            return $this->json(['status'=>404,'message'=>"commentaire introuvable"]);
-        }
-        $entityManager->remove($comment);
-        $entityManager->flush();
-        return $this->json(['status'=>200,'message'=>'suppression effectué']);
-
-    }
+  
 }

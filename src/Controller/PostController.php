@@ -12,6 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use App\Repository\CommentRepository;
 
 class PostController extends AbstractController
 {
@@ -64,6 +65,21 @@ class PostController extends AbstractController
             return $this->json(['status'=>404,'message'=>"post introuvable"]);
         }
         $entityManager->remove($post);
+        $entityManager->flush();
+        return $this->json(['status'=>200,'message'=>'suppression effectué']);
+
+    }
+
+      /**
+     * @Route("api/posts/{postId}/comments/{commentsId}", name="delete_comment" , methods={"DELETE"})
+     */
+
+    public function deleteComment($postId,$commentsId,CommentRepository $commentRepository,EntityManagerInterface $entityManager){
+        $comment=$commentRepository->findOneBy(array('post_id'=>$postId,'id'=>$commentsId));
+        if (!$comment){
+            return $this->json(['status'=>404,'message'=>"commentaire introuvable"]);
+        }
+        $entityManager->remove($comment);
         $entityManager->flush();
         return $this->json(['status'=>200,'message'=>'suppression effectué']);
 
