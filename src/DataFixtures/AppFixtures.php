@@ -22,11 +22,12 @@ class AppFixtures extends Fixture
         for ($i=0; $i<10; $i++){
             $categories[$i]= new Category();
             $categories[$i]->setName($faker->name);
+            $categories[$i]->setCreatedAt(new \DateTime());
             $categories[$i]->setDiscription($faker->text);
-            $categories->persist($categories[$i]);
+            $manager->persist($categories[$i]);
             // On associe les posts
-            $this->setPost($categories[$i],$manager);
-//            $manager->flush();
+           $this->setPost($categories[$i],$manager);
+            $manager->flush();
         }
         echo "Enregistrement categories OK \n";
         $users =Array();
@@ -37,13 +38,14 @@ class AppFixtures extends Fixture
            $users[$i]->setPhoto($faker->address);
           // $password =$this->encoder->encodePassword($users[$i],'secret');
            $users[$i]->setPassword('password');
-           $manager->persist($users[$i]);
+          // $manager->persist($users[$i]);
+           $manager->flush();
 
 
 
        }
        echo "Enregistrement utilisateurs OK \n";
-        $manager->flush();
+
     }
 
     public  function setPost(Category $category, ObjectManager $manager){
@@ -51,6 +53,8 @@ class AppFixtures extends Fixture
             $faker =Faker\Factory::create('fr_FR');
             $posts[$j]= new Post();
             $posts[$j]->setContent($faker->text(255));
+            $posts[$j]->setCreatedAt(new \DateTime());
+            $posts[$j]->setTitle($faker->name);
             $category->addPost($posts[$j]);              // ou $facture->setUser($user);
             $manager->persist($posts[$j]);
             // On associe les commentaires pour ce poste
@@ -70,6 +74,7 @@ class AppFixtures extends Fixture
             $comments[$j]->setContent($faker->text(255));
             $post->addComment($comments[$j]);              // ou $facture->setUser($user);
             $manager->persist($comments[$j]);
+            $manager->flush();
 
         }
         echo "Enregistrement commentaires OK \n";

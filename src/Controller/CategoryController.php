@@ -16,15 +16,15 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class CategoryController extends AbstractController
 {
     /**
-     * @Route("/categories", name="list_categories" method={"GET"})
+     * @Route("api/categories", name="list_categories", methods={"GET"})
      */
-    public function index(CategoryRepository $categoryRepository)
-    {
-        return $this->json($categoryRepository->findAll(),200,[],['groups'=> 'post:read']);
+    public function index(CategoryRepository $categoryRepository){
+        return $this->json($categoryRepository->findAll(),200,[],['groups'=> 'category:read']);
     }
     /**
      * @Route("api/categories", name="store_categories", methods={"POST"})
      */
+
     public function store(Request $request,SerializerInterface $serializer, EntityManagerInterface $entityManager,
                           ValidatorInterface $validator){
 

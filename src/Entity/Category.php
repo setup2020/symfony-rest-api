@@ -42,6 +42,29 @@ class Category
      *  @Groups("category:read")
      */
     private $posts;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Groups("category:read")
+     */
+    private $createdAt;
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param mixed $createdAt
+     */
+    public function setCreatedAt($createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
