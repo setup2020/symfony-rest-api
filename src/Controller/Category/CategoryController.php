@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Category;
 
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
@@ -22,6 +22,22 @@ class CategoryController extends AbstractController
         return $this->json($categoryRepository->findAll(),200,[],['groups'=> 'category:read']);
     }
     /**
+     * @Route("api/categories/{id}", name="show_category", methods={"GET"})
+     */
+    public function show($id ,CategoryRepository $categoryRepository){
+        if(!$categoryRepository){
+            return $this->json(
+                [
+                    'status'=>404,
+                    'message'=>'la categories  n`\'existe pas'
+
+                ]);
+        }
+
+        return $this->json($categoryRepository->find($id), 201,[],['groups'=> 'category:read']);
+
+    }
+    /**
      * @Route("api/categories", name="store_categories", methods={"POST"})
      */
 
@@ -29,6 +45,7 @@ class CategoryController extends AbstractController
                           ValidatorInterface $validator){
 
         $categoryRecu=$request->getContent();
+
 
         try {
             $category= $serializer->deserialize($categoryRecu,Category::class,'json');

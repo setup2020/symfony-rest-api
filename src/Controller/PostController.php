@@ -30,46 +30,6 @@ class PostController extends AbstractController
     public function show($id ,PostRepository $postRepository){
         return $this->json($postRepository->find($id),200,[],['groups'=> 'post:read']);
     }
-    /**
-     * @Route("api/posts", name="store_post", methods={"POST"})
-     */
-
-    public function store(Request $request,
-                          SerializerInterface $serializer,
-                          EntityManagerInterface $entityManager,
-                          ValidatorInterface $validator,
-                          CategoryRepository $categoryRepository,
-                          $categoryId
-
-    ){
-        $postRecu = $request->getContent();
-        try {
-            $category =$categoryRepository->find($categoryId);
-            if (!$category){
-                return $this->json(
-                    [
-                        'status'=>404,
-                        'message'=>'cette categorie n\'existe pas '.$categoryId
-
-                    ]);
-            }
-            $post= $serializer->deserialize($postRecu,Post::class,'json');
-            $post->setCreatedAt(new \DateTime());
-             $errors =$validator->validate($post);
-             if(count($errors)>0){
-                 return $this->json($errors,400);
-             }
-            $category->addPost($post);
-            $entityManager->persist($post);
-            $entityManager->flush();
-            return $this->json($post, 201,[],['groups'=> 'post:read']);
-        } catch ( NotEncodableValueException $exception){
-                    return $this->json([
-                        'status'=>400,
-                        'message'=>"Syntax error"
-                    ]);
-        }
-    }
 
 
     /**
@@ -99,6 +59,13 @@ class PostController extends AbstractController
         $entityManager->remove($comment);
         $entityManager->flush();
         return $this->json(['status'=>200,'message'=>'suppression effectué']);
+
+    }
+
+    /**
+     * @Route("api/posts/{postId}/uploadimage", name="upload_image", methods={"POST"})
+     */
+    public function uploadImagePost($postId){
 
     }
 }

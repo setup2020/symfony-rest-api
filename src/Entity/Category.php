@@ -49,6 +49,8 @@ class Category
      */
     private $createdAt;
 
+
+
     /**
      * @return mixed
      */
@@ -62,7 +64,7 @@ class Category
      */
     public function setCreatedAt($createdAt): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt =new \DateTime();
     }
 
     public function __construct()

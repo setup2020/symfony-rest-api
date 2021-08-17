@@ -23,7 +23,7 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
-     *  @Groups("user:read")
+     *  @Groups("post:read")
      * @Assert\NotBlank
      * @Assert\Length(min=3)
      */
@@ -36,6 +36,9 @@ class Post
      * @Assert\Length(min=3)
      */
     private $content;
+
+
+
 
     /**
      * @ORM\Column(type="datetime")
@@ -50,11 +53,9 @@ class Post
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="categories")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("post:write")
-     * @Assert\NotBlank
-     * @Assert\Length(min=3)
      */
     private $category;
     public function getCategory(): ?Category
@@ -92,6 +93,8 @@ class Post
 
         return $this;
     }
+
+ 
 
     public function getContent(): ?string
     {
