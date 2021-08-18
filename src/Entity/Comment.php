@@ -23,8 +23,6 @@ class Comment
      * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      * @Groups("comment:write")
-     * @Assert\NotBlank
-     * @Assert\Length(min=3)
      */
     private $post;
 
