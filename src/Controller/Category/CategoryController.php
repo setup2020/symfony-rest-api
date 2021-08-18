@@ -65,30 +65,6 @@ class CategoryController extends AbstractController
         }
 
     }
-    /**
-     * @Route("api/categories/{categoryId}/posts, name="list_posts_category", methods={"GET"})
-     */
-    public function categoryPosts($categoryId,CategoryRepository $categoryRepository){
 
-        try {
-            $category= $categoryRepository->find($categoryId);
-            if (!$category){
-                return $this->json(
-                    [
-                        'status'=>404,
-                        'message'=>'la category '.$categoryId . ' n\'existe pas'
-
-                    ]);
-            }
-
-        } catch ( NotEncodableValueException $exception){
-            return $this->json([
-                'status'=>400,
-                'message'=>"Syntax error"
-            ]);
-        }
-
-
-    }
 
 }

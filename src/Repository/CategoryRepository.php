@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -17,6 +18,24 @@ class CategoryRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
+    }
+
+    public function transform(Category $category){
+        return [
+            'id'=>(int) $category->getId(),
+            'title'=>(string) $category->getName(),
+            'description'=>(string) $category->getDiscription()
+            ];
+
+    }
+
+    public function transformAll(){
+        $categories =$this->findAll();
+        $categoriesArray =[];
+        foreach ($categories as $category){
+            $categoriesArray[]=$this->transform($category);
+            return $categoriesArray;
+        }
     }
 
     // /**
