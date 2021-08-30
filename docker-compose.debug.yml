@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  symfonyrestapi:
+    image: symfonyrestapi
+    build:
+      context: .
+      dockerfile: ./Dockerfile
